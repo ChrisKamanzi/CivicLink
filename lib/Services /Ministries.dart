@@ -10,7 +10,7 @@ final List<Map<String, dynamic>> ministries = [
   },
   {
     'name': 'MINAFFET',
-    'image': 'Assets/minafet.jpeg',
+    'image': 'Assets/minafet .jpeg',
     'description': [
       'Handles foreign affairs',
       'Represents Rwanda globally',
@@ -19,7 +19,7 @@ final List<Map<String, dynamic>> ministries = [
   },
   {
     'name': 'MINEDUC',
-    'image': 'Assets/mineduc.jpeg',
+    'image': 'Assets/mineduc .jpg',
     'description': [
       'Oversees education system',
       'Supports schools and teachers',
@@ -27,9 +27,9 @@ final List<Map<String, dynamic>> ministries = [
     ],
   },
   {
-    'name': 'Minagri',
-    'image': 'Assets/Minagri.jpeg',
-    'description': [
+      'name': 'Minagri',
+      'image': 'Assets/Minagri .jpeg',
+      'description': [
       'Supports farmers',
       'Promotes food security',
       'Modernizes agriculture',

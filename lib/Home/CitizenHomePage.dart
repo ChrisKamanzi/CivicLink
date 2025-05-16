@@ -2,6 +2,7 @@ import 'package:civic_link/widgets/BottomNavBar.dart';
 import 'package:civic_link/widgets/StatusTile.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/CategoryCards.dart';
 import '../widgets/Drawer.dart';
@@ -13,7 +14,13 @@ class CitizenHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Citizen Portal'),
+        backgroundColor: Colors.transparent,
+        title: Text(
+          'Citizen Portal',
+          style: GoogleFonts.inter(
+            textStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+          ),
+        ),
         actions: [
           IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
           IconButton(icon: Icon(Icons.person), onPressed: () {}),
@@ -28,7 +35,12 @@ class CitizenHomePage extends StatelessWidget {
             children: [
               Text(
                 'Welcome back 👋',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: GoogleFonts.inter(
+                  textStyle: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
               SizedBox(height: 16),
               Row(
@@ -36,7 +48,10 @@ class CitizenHomePage extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton.icon(
                       icon: Icon(Icons.report),
-                      label: Text('Submit Complaint'),
+                      label: Text(
+                        'Submit Complaint',
+                        style: GoogleFonts.inter(),
+                      ),
                       onPressed: () => context.push('/complains'),
                     ),
                   ),
@@ -44,7 +59,7 @@ class CitizenHomePage extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton.icon(
                       icon: Icon(Icons.track_changes),
-                      label: Text('Track Status'),
+                      label: Text('Track Status', style: GoogleFonts.inter()),
                       onPressed: () {},
                     ),
                   ),
@@ -53,7 +68,12 @@ class CitizenHomePage extends StatelessWidget {
               SizedBox(height: 24),
               Text(
                 'Categories',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.inter(
+                  textStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               SizedBox(height: 12),
               GridView.count(
@@ -77,11 +97,19 @@ class CitizenHomePage extends StatelessWidget {
               SizedBox(height: 24),
               Text(
                 'Recent Complaints',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.inter(
+                  textStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               SizedBox(height: 12),
               StatusTile(
-                title: ' Land Titles', status: 'In Progress', onTap: () {},),
+                title: ' Land Titles',
+                status: 'In Progress',
+                onTap: () {},
+              ),
               StatusTile(title: 'Power of Attorney delay', status: 'Resolved'),
             ],
           ),

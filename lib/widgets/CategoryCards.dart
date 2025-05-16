@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CategoryCard extends StatelessWidget {
   final IconData icon;
@@ -26,7 +27,7 @@ class CategoryCard extends StatelessWidget {
             children: [
               Icon(icon, size: 40, color: Colors.blueAccent),
               const SizedBox(height: 8),
-              Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
+              Text(label, style: GoogleFonts.inter(textStyle:  TextStyle(fontWeight: FontWeight.w500))),
             ],
           ),
         ),

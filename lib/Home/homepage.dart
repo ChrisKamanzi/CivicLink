@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../Services /Ministries.dart';
-import '../Services /MinistriesCard.dart';
+import '../widgets/MinistriesCard.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
