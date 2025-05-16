@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Register extends StatefulWidget {
+import '../Providers/SignUpNotifier.dart';
+
+class Register extends ConsumerWidget {
   const Register({super.key});
 
   @override
-  State<Register> createState() => _RegisterState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final signInNotifier = ref.watch(signUpProvider.notifier);
+    final _formKey = GlobalKey();
 
-class _RegisterState extends State<Register> {
-  final _formKey = GlobalKey();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Colors.transparent),
@@ -38,7 +38,7 @@ class _RegisterState extends State<Register> {
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: _emailController,
+                      // controller: _emailController,
                       decoration: InputDecoration(
                         labelText: 'Full name',
                         border: OutlineInputBorder(
@@ -75,7 +75,7 @@ class _RegisterState extends State<Register> {
                     SizedBox(height: 40),
 
                     TextFormField(
-                      controller: _passwordController,
+                      //     controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Confirm Password',
@@ -105,7 +105,14 @@ class _RegisterState extends State<Register> {
                           ),
                           foregroundColor: Colors.white,
                         ),
-                        onPressed: () => context.push('/login'),
+                        onPressed: () async {
+                          await signInNotifier.signUp(
+                            _emailController.text.trim(),
+                            _passwordController.text.trim(),
+                          );
+                          context.go('/login');
+                        },
+
                         child: Text(
                           'Sign Up',
                           style: GoogleFonts.inter(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../AI/AiModel.dart';
 
@@ -94,7 +93,6 @@ class _HomePageState extends State<Complains> {
                         String complainText = _descriptionController.text;
                         String assigned = categorizeComplaint(complainText);
                         print('$assigned');
-                        context.push('/homepage');
                       },
                       child: Text(
                         'SUBMIT',
