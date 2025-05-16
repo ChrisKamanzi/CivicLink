@@ -63,7 +63,7 @@ class WelcomePage extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   foregroundColor: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () => context.push('/register'),
                 child: Text(
                   'Sign UP',
                   style: GoogleFonts.inter(
@@ -79,7 +79,7 @@ class WelcomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 200),
               child: TextButton(
-                onPressed: () {},
+                onPressed: ()=> context.push('/homepage'),
                 child: Text(
                   'Continue As Guest',
 

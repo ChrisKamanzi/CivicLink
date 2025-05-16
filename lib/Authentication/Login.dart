@@ -80,7 +80,7 @@ class _LoginState extends State<Login> {
                           ),
                           foregroundColor: Colors.white,
                         ),
-                        onPressed: () => context.push('/login'),
+                        onPressed: () => context.push('/homepage'),
                         child: Text(
                           'Sign In',
                           style: GoogleFonts.inter(

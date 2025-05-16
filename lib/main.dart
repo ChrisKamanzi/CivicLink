@@ -1,5 +1,6 @@
 import 'package:civic_link/Authentication/Login.dart';
 import 'package:civic_link/Authentication/Register.dart';
+import 'package:civic_link/Home/HomePage.dart';
 import 'package:civic_link/Home/WelcomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -29,6 +30,10 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/register',
         builder: (BuildContext context, GoRouterState state) => Register(),
+      ),
+      GoRoute(
+        path: '/homepage',
+        builder: (BuildContext context, GoRouterState state) => HomePage(),
       ),
     ],
   );
