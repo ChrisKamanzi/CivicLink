@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -37,7 +38,7 @@ class WelcomePage extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   foregroundColor: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () => context.push('/login'),
                 child: Text(
                   'Login',
                   style: GoogleFonts.inter(

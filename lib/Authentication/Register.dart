@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   final _formKey = GlobalKey();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -25,7 +25,7 @@ class _LoginState extends State<Login> {
           child: Column(
             children: [
               Text(
-                'Login',
+                'Register',
                 style: GoogleFonts.inter(
                   fontSize: 40,
                   fontWeight: FontWeight.w800,
@@ -37,6 +37,18 @@ class _LoginState extends State<Login> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Full name',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: Icon(Icons.email),
+                      ),
+                    ),
+                    SizedBox(height: 40),
+
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -54,6 +66,19 @@ class _LoginState extends State<Login> {
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: Icon(Icons.password),
+                      ),
+                    ),
+                    SizedBox(height: 40),
+
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -82,7 +107,7 @@ class _LoginState extends State<Login> {
                         ),
                         onPressed: () => context.push('/login'),
                         child: Text(
-                          'Sign In',
+                          'Sign Up',
                           style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
@@ -107,7 +132,7 @@ class _LoginState extends State<Login> {
                           ),
                           SizedBox(width: 2),
                           TextButton(
-                            onPressed: () => context.push('/register'),
+                            onPressed: () {},
                             child: Text(
                               'Sign Up ',
                               style: GoogleFonts.inter(
