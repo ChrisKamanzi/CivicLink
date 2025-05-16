@@ -3,14 +3,14 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../AI/AiModel.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class Complains extends StatefulWidget {
+  const Complains({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Complains> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<Complains> {
   final _formKey = GlobalKey();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
@@ -94,6 +94,7 @@ class _HomePageState extends State<HomePage> {
                         String complainText = _descriptionController.text;
                         String assigned = categorizeComplaint(complainText);
                         print('$assigned');
+                        context.push('/homepage');
                       },
                       child: Text(
                         'SUBMIT',
