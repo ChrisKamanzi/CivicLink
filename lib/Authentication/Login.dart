@@ -1,21 +1,19 @@
+import 'package:civic_link/Providers/SignInNotifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Login extends StatefulWidget {
+class Login extends ConsumerWidget {
   const Login({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final signInNotifier = ref.watch(signInProvider.notifier);
 
-class _LoginState extends State<Login> {
-  final _formKey = GlobalKey();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+    final _emailController = TextEditingController();
+    final _passwordController = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Colors.transparent),
@@ -34,7 +32,7 @@ class _LoginState extends State<Login> {
               SizedBox(height: 50),
 
               Form(
-                key: _formKey,
+                key: GlobalKey<FormState>(),
                 child: Column(
                   children: [
                     TextFormField(
@@ -60,7 +58,6 @@ class _LoginState extends State<Login> {
                         prefixIcon: Icon(Icons.password),
                       ),
                     ),
-
                     SizedBox(height: 70),
 
                     Container(
@@ -80,7 +77,13 @@ class _LoginState extends State<Login> {
                           ),
                           foregroundColor: Colors.white,
                         ),
-                        onPressed: () => context.push('/home'),
+                        onPressed: () async {
+                          await signInNotifier.signIn(
+                            _emailController.text.trim(),
+                            _passwordController.text.trim(),
+                          );
+                          context.go('/home');
+                        },
                         child: Text(
                           'Sign In',
                           style: GoogleFonts.inter(
@@ -98,7 +101,7 @@ class _LoginState extends State<Login> {
                       child: Row(
                         children: [
                           Text(
-                            'Dont have account?',
+                            'Don’t have an account?',
                             style: GoogleFonts.inter(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
