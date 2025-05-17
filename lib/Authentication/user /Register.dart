@@ -1,18 +1,20 @@
-import 'package:civic_link/Providers/SignInNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Login extends ConsumerWidget {
-  const Login({super.key});
+import '../../Providers/SignUpNotifier.dart';
+
+class Register extends ConsumerWidget {
+  const Register({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final signInNotifier = ref.watch(signInProvider.notifier);
+    final signInNotifier = ref.watch(signUpProvider.notifier);
+    final _formKey = GlobalKey();
 
-    final _emailController = TextEditingController();
-    final _passwordController = TextEditingController();
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -23,7 +25,7 @@ class Login extends ConsumerWidget {
           child: Column(
             children: [
               Text(
-                'Login',
+                'Register',
                 style: GoogleFonts.inter(
                   fontSize: 40,
                   fontWeight: FontWeight.w800,
@@ -32,9 +34,21 @@ class Login extends ConsumerWidget {
               SizedBox(height: 50),
 
               Form(
-                key: GlobalKey<FormState>(),
+                key: _formKey,
                 child: Column(
                   children: [
+                    TextFormField(
+                      // controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Full name',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: Icon(Icons.email),
+                      ),
+                    ),
+                    SizedBox(height: 40),
+
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -58,6 +72,20 @@ class Login extends ConsumerWidget {
                         prefixIcon: Icon(Icons.password),
                       ),
                     ),
+                    SizedBox(height: 40),
+
+                    TextFormField(
+                      //     controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: Icon(Icons.password),
+                      ),
+                    ),
+
                     SizedBox(height: 70),
 
                     Container(
@@ -78,14 +106,15 @@ class Login extends ConsumerWidget {
                           foregroundColor: Colors.white,
                         ),
                         onPressed: () async {
-                          await signInNotifier.signIn(
+                          await signInNotifier.signUp(
                             _emailController.text.trim(),
                             _passwordController.text.trim(),
                           );
-                          context.go('/home');
+                          context.go('/login');
                         },
+
                         child: Text(
-                          'Sign In',
+                          'Sign Up',
                           style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
@@ -101,7 +130,7 @@ class Login extends ConsumerWidget {
                       child: Row(
                         children: [
                           Text(
-                            'Don’t have an account?',
+                            'Dont have account?',
                             style: GoogleFonts.inter(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
@@ -110,7 +139,7 @@ class Login extends ConsumerWidget {
                           ),
                           SizedBox(width: 2),
                           TextButton(
-                            onPressed: () => context.push('/register'),
+                            onPressed: () {},
                             child: Text(
                               'Sign Up ',
                               style: GoogleFonts.inter(

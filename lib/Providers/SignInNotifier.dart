@@ -15,6 +15,7 @@ class SignInNotifier extends StateNotifier<User?> {
         password: password,
       );
       state = userCredential.user;
+
       print('sign In');
     } catch (e) {
       print("Sign-in error: $e");

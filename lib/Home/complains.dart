@@ -1,21 +1,21 @@
+import 'package:civic_link/Providers/complaintNotifier.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../AI/AiModel.dart';
 
-class Complains extends StatefulWidget {
-  const Complains({super.key});
+class Complains extends ConsumerWidget {
+  Complains({super.key});
 
-  @override
-  State<Complains> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<Complains> {
   final _formKey = GlobalKey();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final complaintState = ref.watch(complaintProvider);
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -89,11 +89,24 @@ class _HomePageState extends State<Complains> {
                         ),
                         foregroundColor: Colors.white,
                       ),
-                      onPressed: () {
-                        String complainText = _descriptionController.text;
-                        String assigned = categorizeComplaint(complainText);
-                        print('$assigned');
+                      onPressed: () async {
+                        try {
+                          final assigned = categorizeComplaint(_descriptionController.text);
+                          await ref.read(complaintProvider.notifier).submitComplaint(
+                            title: _titleController.text,
+                            description: _descriptionController.text,
+                            assignedAgency: assigned,
+                          );
+                          print("Complaint submitted!");
+
+
+
+                        } catch (e) {
+                          print("Submit error: $e");
+                        }
                       },
+
+
                       child: Text(
                         'SUBMIT',
                         style: GoogleFonts.inter(
@@ -103,6 +116,13 @@ class _HomePageState extends State<Complains> {
                       ),
                     ),
                   ),
+                  TextButton(onPressed: (){
+                    FirebaseFirestore.instance.collection('test').add({
+                      'message': 'Hello world',
+                      'timestamp': FieldValue.serverTimestamp(),
+                    });
+
+                  }, child: Text('test'))
                 ],
               ),
             ),

@@ -79,9 +79,25 @@ class WelcomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 200),
               child: TextButton(
-                onPressed: ()=> context.push('/homepage'),
+                onPressed: () => context.push('/homepage'),
                 child: Text(
                   'Continue As Guest',
+
+                  style: GoogleFonts.inter(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      color: Colors.orange.shade800,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 200),
+              child: TextButton(
+                onPressed: () => context.push('/Admin'),
+                child: Text(
+                  'Continue As Admin',
 
                   style: GoogleFonts.inter(
                     textStyle: TextStyle(

@@ -1,18 +1,21 @@
-import 'package:civic_link/Authentication/Login.dart';
-import 'package:civic_link/Authentication/Register.dart';
-import 'package:civic_link/Home/complains.dart';
+import 'package:civic_link/Authentication/Admin/adminAuth.dart';
+import 'package:civic_link/Authentication/user%20/Login.dart';
+import 'package:civic_link/Authentication/user%20/Register.dart';
 import 'package:civic_link/Home/WelcomePage.dart';
+import 'package:civic_link/Home/complains.dart';
 import 'package:civic_link/Home/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import 'Home/CitizenHomePage.dart';
+import 'firebase_options.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase .initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -25,10 +28,6 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/splash',
         builder: (BuildContext context, GoRouterState state) => WelcomePage(),
-      ),
-      GoRoute(
-        path: '/login',
-        builder: (BuildContext context, GoRouterState state) => Login(),
       ),
       GoRoute(
         path: '/login',
@@ -49,6 +48,10 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/home',
         builder: (BuildContext context, GoRouterState state) => CitizenHomePage(),
+      ),
+      GoRoute(
+        path: '/Admin',
+        builder: (BuildContext context, GoRouterState state) => LoginScreenWeb(),
       ),
     ],
   );

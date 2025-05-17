@@ -49,7 +49,7 @@ class CitizenHomePage extends StatelessWidget {
                     child: ElevatedButton.icon(
                       icon: Icon(Icons.report),
                       label: Text(
-                        'Submit Complaint',
+                        'Your Complaint',
                         style: GoogleFonts.inter(),
                       ),
                       onPressed: () => context.push('/complains'),
