@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../Providers/AdminSignInNotifier.dart';
 import '../../Providers/SignInNotifier.dart';
 
 final loginLoadingProvider = StateProvider<bool>((ref) => false);
@@ -35,7 +37,7 @@ class _LoginScreenWebState extends ConsumerState<LoginScreenWeb> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isLoading = ref.watch(loginLoadingProvider);
-    final user = ref.watch(signInProvider);
+    final user = ref.watch(AdminsignInProvider);
 
     ref.listen<User?>(signInProvider, (previous, next) {
       if (next != null && previous == null) {
@@ -67,25 +69,25 @@ class _LoginScreenWebState extends ConsumerState<LoginScreenWeb> {
                 ),
                 const SizedBox(height: 24),
                 TextFormField(
-                  controller: _emailController,
+                  controller: _emailController..text = 'admin@gmail.com',
+                  enabled: false,
                   decoration: InputDecoration(
                     labelText: "Email",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
-                  validator: (value) {
-                    if (value == null || !value.contains('@')) {
-                      return "Enter a valid email";
-                    }
-                    return null;
-                  },
                 ),
+
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: "Password",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.length < 6) {
@@ -94,18 +96,45 @@ class _LoginScreenWebState extends ConsumerState<LoginScreenWeb> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: isLoading ? null : _submit,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: isLoading
-                        ? const CircularProgressIndicator()
-                        : const Text("Login"),
+                    onPressed:
+                        isLoading
+                            ? null
+                            : () async {
+                              if (!_formKey.currentState!.validate()) return;
+
+                              final email = _emailController.text.trim();
+                              final password = _passwordController.text.trim();
+                              context.go('/AdminHome');
+                              if (email != 'admin@gmail.com') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Only admin login is allowed',
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              ref.read(loginLoadingProvider.notifier).state =
+                                  true;
+
+                              await ref
+                                  .read(AdminsignInProvider.notifier)
+                                  .signIn(email, password);
+
+                              ref.read(loginLoadingProvider.notifier).state =
+                                  false;
+                            },
+
+                    child:
+                        isLoading
+                            ? const CircularProgressIndicator()
+                            : const Text("Login"),
                   ),
                 ),
               ],

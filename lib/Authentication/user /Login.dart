@@ -18,15 +18,12 @@ class Login extends ConsumerWidget {
       if (next != null && previous == null) {
         Navigator.pushReplacementNamed(context, '/home');
       }
-    }
-
-    );
+    });
 
     final _emailController = TextEditingController();
     final _passwordController = TextEditingController();
 
     return Scaffold(
-
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Colors.transparent),
       body: Padding(
@@ -106,9 +103,7 @@ class Login extends ConsumerWidget {
                           ),
                         ),
                       ),
-
                       SizedBox(height: 100),
-
                       Padding(
                         padding: const EdgeInsets.only(left: 2),
                         child: Row(

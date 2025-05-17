@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignInNotifier extends StateNotifier<User?> {
-  SignInNotifier() : super(FirebaseAuth.instance.currentUser) {
+class AdminSignInNotifier extends StateNotifier<User?> {
+  AdminSignInNotifier() : super(FirebaseAuth.instance.currentUser) {
     FirebaseAuth.instance.authStateChanges().listen((user) {
       state = user;
     });
@@ -27,6 +27,6 @@ class SignInNotifier extends StateNotifier<User?> {
   }
 }
 
-final signInProvider = StateNotifierProvider<SignInNotifier, User?>((ref) {
-  return SignInNotifier();
+final AdminsignInProvider = StateNotifierProvider<AdminSignInNotifier, User?>((ref) {
+  return AdminSignInNotifier();
 });

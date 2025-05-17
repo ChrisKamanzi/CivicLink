@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'Home/AdminHome.dart';
 import 'Home/CitizenHomePage.dart';
 import 'firebase_options.dart';
 
@@ -52,6 +53,10 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/Admin',
         builder: (BuildContext context, GoRouterState state) => LoginScreenWeb(),
+      ),
+      GoRoute(
+        path: '/AdminHome',
+        builder: (BuildContext context, GoRouterState state) =>AdminHome(),
       ),
     ],
   );
