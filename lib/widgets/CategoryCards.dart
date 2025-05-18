@@ -15,19 +15,35 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const primaryColor = Colors.orange;
+
     return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: Colors.white,
+      elevation: 4,
+      shadowColor: primaryColor.withOpacity(0.4),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Center(
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 40, color: Colors.blueAccent),
-              const SizedBox(height: 8),
-              Text(label, style: GoogleFonts.inter(textStyle:  TextStyle(fontWeight: FontWeight.w500))),
+              Icon(icon, size: 40, color: primaryColor),
+              const SizedBox(height: 12),
+              Text(
+                label,
+                style: GoogleFonts.inter(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: primaryColor,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

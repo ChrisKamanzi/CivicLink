@@ -27,38 +27,69 @@ class ComplaintCard extends ConsumerWidget {
             children: [
               Text(
                 complaint.tittle,
-                style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange.shade800,
+                ),
               ),
               const SizedBox(height: 8),
-              Text(complaint.description, style: GoogleFonts.poppins()),
+              Text(
+                complaint.description,
+                style: GoogleFonts.poppins(color: Colors.grey.shade900),
+              ),
               const SizedBox(height: 12),
               Row(
                 children: [
                   Chip(
-                    label: Text(complaint.status),
+                    label: Text(
+                      complaint.status,
+                      style: TextStyle(
+                        color: complaint.status == 'pending'
+                            ? Colors.orange.shade900
+                            : Colors.green.shade900,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     backgroundColor: complaint.status == 'pending'
                         ? Colors.orange.shade200
                         : Colors.green.shade200,
                   ),
                   const SizedBox(width: 8),
-                  const Icon(Icons.account_tree_outlined, size: 16),
+                  Icon(Icons.account_tree_outlined, size: 16, color: Colors.orange.shade700),
                   const SizedBox(width: 4),
-                  Text(complaint.assigned, style: GoogleFonts.poppins()),
+                  Text(
+                    complaint.assigned,
+                    style: GoogleFonts.poppins(color: Colors.orange.shade700),
+                  ),
                 ],
               ),
               const SizedBox(height: 8),
-              Text('User ID: ${complaint.userId}',
-                  style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey)),
+              Text(
+                'User ID: ${complaint.userId}',
+                style: GoogleFonts.poppins(
+                  fontSize: 12,
+                  color: Colors.grey.shade600,
+                ),
+              ),
 
-              // If there's a reply, show it
               if (complaint.reply.isNotEmpty) ...[
                 const SizedBox(height: 12),
                 ExpansionTile(
-                  title: const Text("Admin Reply"),
+                  title: Text(
+                    "Admin Reply",
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.orange.shade800,
+                    ),
+                  ),
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(complaint.reply),
+                      child: Text(
+                        complaint.reply,
+                        style: GoogleFonts.poppins(color: Colors.grey.shade900),
+                      ),
                     )
                   ],
                 )
@@ -77,21 +108,34 @@ class ComplaintCard extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Reply to Complaint"),
+          title: Text(
+            "Reply to Complaint",
+            style: GoogleFonts.poppins(color: Colors.orange.shade800),
+          ),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Your reply',
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.orange.shade700, width: 2),
+              ),
+              labelStyle: TextStyle(color: Colors.orange.shade700),
             ),
             maxLines: 4,
           ),
           actions: [
             TextButton(
-              child: const Text("Cancel"),
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: Colors.orange.shade700),
+              ),
               onPressed: () => Navigator.of(context).pop(),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange.shade700,
+              ),
               child: const Text("Submit Reply"),
               onPressed: () async {
                 final reply = controller.text.trim();
