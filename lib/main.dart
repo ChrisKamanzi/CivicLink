@@ -64,6 +64,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+        useMaterial3: true,
+      ),
       routerConfig: _router,
       debugShowCheckedModeBanner: false,
     );
