@@ -1,5 +1,6 @@
 String categorizeComplaint(String complaintText) {
   Map<String, String> categoryRules = {
+
     "agriculture": "MINAGRI",
     "farming": "MINAGRI",
     "livestock": "MINAGRI",
@@ -17,6 +18,11 @@ String categorizeComplaint(String complaintText) {
     "consular services": "MINAFET",
     "passport": "MINAFET",
     "Embassies": "MINAFET",
+
+    "insecurity": "MINADEF",
+    "gun": "MINAFET",
+    "shoot" : "MINAFET",
+    "border": "MINAFET",
 
   };
 
