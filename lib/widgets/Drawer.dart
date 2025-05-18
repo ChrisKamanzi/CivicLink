@@ -11,8 +11,7 @@ class Drawerr extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
-
-  child :  Padding(
+      child: Padding(
         padding: EdgeInsets.only(top: 100),
         child: Column(
           children: [
@@ -30,7 +29,7 @@ class Drawerr extends ConsumerWidget {
               ),
             ),
 
-SizedBox(height: 30,),
+            SizedBox(height: 30),
             TextButton(
               onPressed: () async {
                 await ref.read(signInProvider.notifier).signOut();
