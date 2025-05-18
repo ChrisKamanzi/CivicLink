@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../Providers/AdminSignInNotifier.dart';
 import '../../Providers/SignInNotifier.dart';
 
@@ -46,6 +45,7 @@ class _LoginScreenWebState extends ConsumerState<LoginScreenWeb> {
     });
 
     return Scaffold(
+      backgroundColor: Colors.orange.shade50,
       body: Center(
         child: Container(
           width: screenWidth > 600 ? 400 : screenWidth * 0.9,
@@ -53,7 +53,13 @@ class _LoginScreenWebState extends ConsumerState<LoginScreenWeb> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
-            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10)],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.orange.shade200.withOpacity(0.5),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
           ),
           child: Form(
             key: _formKey,
@@ -63,8 +69,9 @@ class _LoginScreenWebState extends ConsumerState<LoginScreenWeb> {
                 Text(
                   "Admin Login",
                   style: GoogleFonts.poppins(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.orange.shade800,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -73,21 +80,35 @@ class _LoginScreenWebState extends ConsumerState<LoginScreenWeb> {
                   enabled: false,
                   decoration: InputDecoration(
                     labelText: "Email",
+                    labelStyle: TextStyle(color: Colors.orange.shade700),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                      BorderSide(color: Colors.orange.shade300, width: 2),
+                    ),
+                    prefixIcon: Icon(Icons.email, color: Colors.orange.shade700),
                   ),
                 ),
-
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: "Password",
+                    labelStyle: TextStyle(color: Colors.orange.shade700),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                      BorderSide(color: Colors.orange.shade700, width: 2),
+                    ),
+                    prefixIcon:
+                    Icon(Icons.lock, color: Colors.orange.shade700),
                   ),
                   validator: (value) {
                     if (value == null || value.length < 6) {
@@ -96,45 +117,55 @@ class _LoginScreenWebState extends ConsumerState<LoginScreenWeb> {
                     return null;
                   },
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
+                  height: 48,
                   child: ElevatedButton(
-                    onPressed:
-                        isLoading
-                            ? null
-                            : () async {
-                              if (!_formKey.currentState!.validate()) return;
+                    onPressed: isLoading
+                        ? null
+                        : () async {
+                      if (!_formKey.currentState!.validate()) return;
 
-                              final email = _emailController.text.trim();
-                              final password = _passwordController.text.trim();
-                              context.go('/AdminHome');
-                              if (email != 'admin@gmail.com') {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Only admin login is allowed',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
+                      final email = _emailController.text.trim();
+                      final password = _passwordController.text.trim();
 
-                              ref.read(loginLoadingProvider.notifier).state =
-                                  true;
+                      if (email != 'admin@gmail.com') {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Only admin login is allowed'),
+                            backgroundColor: Colors.redAccent,
+                          ),
+                        );
+                        return;
+                      }
 
-                              await ref
-                                  .read(AdminsignInProvider.notifier)
-                                  .signIn(email, password);
+                      ref.read(loginLoadingProvider.notifier).state = true;
 
-                              ref.read(loginLoadingProvider.notifier).state =
-                                  false;
-                            },
+                      await ref
+                          .read(AdminsignInProvider.notifier)
+                          .signIn(email, password);
 
-                    child:
-                        isLoading
-                            ? const CircularProgressIndicator()
-                            : const Text("Login"),
+                      ref.read(loginLoadingProvider.notifier).state = false;
+
+                      context.go('/AdminHome');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      disabledBackgroundColor: Colors.orange.shade200,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      textStyle: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    child: isLoading
+                        ? const CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                        : const Text("Login"),
                   ),
                 ),
               ],

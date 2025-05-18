@@ -1,9 +1,10 @@
 import 'package:civic_link/Authentication/Admin/adminAuth.dart';
 import 'package:civic_link/Authentication/user%20/Login.dart';
 import 'package:civic_link/Authentication/user%20/Register.dart';
+import 'package:civic_link/Home/MyComplaint.dart';
 import 'package:civic_link/Home/WelcomePage.dart';
 import 'package:civic_link/Home/complains.dart';
-import 'package:civic_link/Home/homepage.dart';
+import 'package:civic_link/Home/Agencies.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, GoRouterState state) => Complains(),
       ),
       GoRoute(
-        path: '/homepage',
+        path: '/Agencies',
         builder: (BuildContext context, GoRouterState state) => Homepage(),
       ),
       GoRoute(
@@ -57,6 +58,10 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/AdminHome',
         builder: (BuildContext context, GoRouterState state) =>AdminHome(),
+      ),
+      GoRoute(
+        path: '/MyStatus',
+        builder: (BuildContext context, GoRouterState state) =>MyStatus(),
       ),
     ],
   );

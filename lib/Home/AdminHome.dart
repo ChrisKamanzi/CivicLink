@@ -20,10 +20,12 @@ class AdminHome extends ConsumerWidget {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Admin Dashboard', style: GoogleFonts.poppins()),
+          backgroundColor: Colors.orange,
+          title: Text('Admin Dashboard', style: GoogleFonts.poppins(color: Colors.white)),
           actions: [
             IconButton(
               icon: const Icon(Icons.logout),
+              color: Colors.white,
               onPressed: () async {
                 await ref.read(AdminsignInProvider.notifier).signOut();
                 context.go('/splash');
@@ -32,28 +34,28 @@ class AdminHome extends ConsumerWidget {
           ],
           bottom: TabBar(
             isScrollable: true,
+            indicatorColor: Colors.white,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.orange.shade200,
             tabs: tabs.map((tab) => Tab(text: tab)).toList(),
           ),
         ),
         body: TabBarView(
-          children:
-              tabs.map((tab) {
-                final filtered =
-                    tab == 'All'
-                        ? complaints
-                        : complaints.where((c) => c.assigned == tab).toList();
+          children: tabs.map((tab) {
+            final filtered = tab == 'All'
+                ? complaints
+                : complaints.where((c) => c.assigned == tab).toList();
 
-                final sorted = [...filtered]..sort(
-                  (a, b) =>
-                      a.status == 'pending' && b.status != 'pending' ? -1 : 1,
-                );
+            final sorted = [...filtered]..sort(
+                  (a, b) => a.status == 'pending' && b.status != 'pending' ? -1 : 1,
+            );
 
-                return ListView.builder(
-                  padding: const EdgeInsets.all(12),
-                  itemCount: sorted.length,
-                  itemBuilder: (_, i) => ComplaintCard(complaint: sorted[i]),
-                );
-              }).toList(),
+            return ListView.builder(
+              padding: const EdgeInsets.all(12),
+              itemCount: sorted.length,
+              itemBuilder: (_, i) => ComplaintCard(complaint: sorted[i]),
+            );
+          }).toList(),
         ),
       ),
     );
