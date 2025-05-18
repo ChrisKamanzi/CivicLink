@@ -10,10 +10,8 @@ class SignInNotifier extends StateNotifier<User?> {
 
   Future<void> signIn(String email, String password) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
       state = userCredential.user;
       print('sign In');
     } catch (e) {

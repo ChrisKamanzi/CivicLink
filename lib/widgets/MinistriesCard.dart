@@ -13,12 +13,14 @@ class MinistryCard extends StatelessWidget {
     required this.descriptionLines,
   });
 
+  static const Color primaryOrange = Colors.orange;
+
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: Colors.blue.shade700,
+      color: primaryOrange,
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () {
@@ -33,11 +35,13 @@ class MinistryCard extends StatelessWidget {
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(20),
               ),
-              child: Image.asset(
-                imagePath,
-                height: 200,
-                width: double.infinity,
-                fit: BoxFit.contain,
+              child: ClipOval(
+                child: Image.asset(
+                  imagePath,
+                  height: 150,
+                  width: 150,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Padding(

@@ -15,11 +15,21 @@ class StatusTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.orange, width: 1.5),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: ListTile(
-        title: Text(title),
-        subtitle: Text('Status: $status'),
-        trailing: const Icon(Icons.arrow_forward_ios),
-        onTap: onTap ?? () {}, // Default empty action if not provided
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        title: Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),
+        ),
+        subtitle: Text(
+          'Status: $status',
+          style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w600),
+        ),
       ),
     );
   }

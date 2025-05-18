@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../Services /Ministries.dart';
+import '../widgets/BottomNavBar.dart';
 import '../widgets/MinistriesCard.dart';
 
 class Homepage extends StatelessWidget {
@@ -16,7 +17,7 @@ class Homepage extends StatelessWidget {
             textStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
           ),
         ),
-        backgroundColor: Colors.blue.shade800,
+        backgroundColor: Colors.orange,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -33,6 +34,7 @@ class Homepage extends StatelessWidget {
           },
         ),
       ),
+      bottomNavigationBar: Bottomnavbar(currentIndex: 2),
     );
   }
 }
