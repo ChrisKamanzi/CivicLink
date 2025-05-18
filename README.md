@@ -1,21 +1,76 @@
-<<<<<<< HEAD
-# CivicLink
-CivicLink is not only digitizes public complaints but intelligently routes them using AI-powered logic, provides real-time tracking, and equips agencies with tools to respond promptly, ensuring better citizen satisfaction and governance transparency
-=======
-# civic_link
+# Citizen Engagement System
 
-A new Flutter project.
 
-## Getting Started
+A Flutter-based platform empowering citizens to voice their concerns, and helping government departments respond effectively.
 
-This project is a starting point for a Flutter application.
+* Submitted for: HANGA HUB Hackathon 
 
-A few resources to get you started if this is your first Flutter project:
+# Project Overview
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+The Citizen Engagement System is a mobile-first solution built to bridge the communication gap between citizens and government agencies. It enables users to submit complaints or feedback digitally, while giving administrators an intuitive dashboard to manage and respond to these submissions.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
->>>>>>> b19e089 (Initial commit)
+This project was developed within the time constraints of the Hackathon.
+
+# Problem Statement: 
+
+Many citizens face challenges in voicing concerns to government institutions, including:
+
+Lack of a streamlined, transparent system for submitting complaints.
+
+Poor tracking and feedback on submitted issues.
+
+Manual handling of reports by government departments.
+
+# Our Solution
+ 
+I developed a two-sided mobile app:
+
+* Citizen View: Allows users to submit detailed complaints, including department/category selection, images, and tracking progress.
+
+ * Admin View: Enables admins to view categorized complaints, assign statuses, and respond directly to users.
+
+* The UI is simple, fast, and leverages orange as a primary theme color for clarity and energy.
+
+ # Features
+ 
+  For Citizens (Users):
+   
+* Submit complaints or feedback with category and description
+
+* Track complaint status (Pending, Resolved, etc.)
+
+* View admin replies
+
+ For Admins:
+ 
+* View complaints filtered by department
+
+* Reply to citizen complaints
+
+* Status management and real-time updates
+
+* Secure logout functionality
+
+
+🚀 Tech Stack
+
+* Flutter (UI)
+
+* Riverpod (state management)
+
+* Firebase (Auth & Firestore)
+
+* Dio (API calls)
+
+* GoRouter (navigation)
+
+* Google Fonts (typography)
+
+* Material Design with orange as the primary theme color
+
+
+
+
+
+
+
