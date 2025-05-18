@@ -1,25 +1,28 @@
 class Complaint {
-  final String assigned;
-  final String title;
+  final String id;
+  final String tittle;
   final String description;
   final String status;
+  final String assigned;
   final String userId;
 
   Complaint({
-    required this.assigned,
-    required this.title,
+    required this.id,
+    required this.tittle,
     required this.description,
     required this.status,
+    required this.assigned,
     required this.userId,
   });
 
-  factory Complaint.fromMap(Map<String, dynamic> map) {
+  factory Complaint.fromMap(Map<String, dynamic> data, String id) {
     return Complaint(
-      assigned: map['assigned'] ?? '',
-      title: map['tittle'] ?? '',
-      description: map['description'] ?? '',
-      status: map['status'] ?? '',
-      userId: map['userId'] ?? '',
+      id: id,
+      tittle: data['tittle'] ?? '',
+      description: data['description'] ?? '',
+      status: data['status'] ?? '',
+      assigned: data['assigned'] ?? '',
+      userId: data['userId'] ?? '',
     );
   }
 }
