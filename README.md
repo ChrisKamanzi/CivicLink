@@ -127,6 +127,10 @@ Lib
 
 <pre> flutter run  </pre>
 
+# APK 
+
+The apk is saved in the root directory ask CivicLink.apk
+
 
 ##  🌌 ScreenShots
 
@@ -154,7 +158,6 @@ Admin Auth
 
 
 <img width="396" alt="Screenshot 2025-05-19 at 09 20 03" src="https://github.com/user-attachments/assets/0436782f-247b-4325-b823-ed74751334e3" />
-
 
 
 
