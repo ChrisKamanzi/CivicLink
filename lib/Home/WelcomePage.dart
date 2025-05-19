@@ -86,17 +86,6 @@ class WelcomePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 32),
-            TextButton(
-              onPressed: () => context.push('/homepage'),
-              child: Text(
-                'Continue As Guest',
-                style: GoogleFonts.inter(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: primaryColor.shade800,
-                ),
-              ),
-            ),
 
             TextButton(
               onPressed: () => context.push('/Admin'),

@@ -16,7 +16,7 @@ class Drawerr extends ConsumerWidget {
         child: Column(
           children: [
             TextButton(
-              onPressed: () => context.push('/homepage'),
+              onPressed: () => context.push('/Agencies'),
               child: Text(
                 'Rwandan Ministries',
                 style: GoogleFonts.inter(
@@ -28,7 +28,6 @@ class Drawerr extends ConsumerWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 30),
             TextButton(
               onPressed: () async {
