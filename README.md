@@ -29,6 +29,8 @@ We developed an AI-powered mobile application to transform the complaint-handlin
 
  * Admin View: Enables admins to view categorized complaints, assign statuses, and respond directly to users.
 
+ password for admin auth is password
+
  The UI is simple, fast, and leverages orange as a primary theme color for clarity and energy.
 
  # Features
