@@ -1,9 +1,9 @@
-import 'package:civic_link/Providers/SignInNotifier.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../Providers/SignInNotifier.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -24,19 +24,13 @@ class _LoginState extends ConsumerState<Login> {
 
   @override
   Widget build(BuildContext context) {
-    final signInNotifier = ref.read(signInProvider.notifier);
-
-    ref.listen<User?>(signInProvider, (previous, next) {
-      if (next != null && !_hasNavigated) {
-        _hasNavigated = true;
-        context.go('/home');
-      }
-    });
+    final signInNotifier = ref.read(SignInProvider.notifier);
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        leading: IconButton(onPressed: context.pop, icon:Icon(Icons.arrow_back_ios)),
         elevation: 0,
         title: Padding(
           padding: const EdgeInsets.only(left: 80),
@@ -158,9 +152,16 @@ class _LoginState extends ConsumerState<Login> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             await signInNotifier.signIn(
-                              _emailController.text.trim(),
+                              _emailController.text.trim().toLowerCase(),
                               _passwordController.text.trim(),
                             );
+
+                            if (!_hasNavigated) {
+                              _hasNavigated = true;
+                              if (mounted) {
+                                context.go('/home');
+                              }
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(

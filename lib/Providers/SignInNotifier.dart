@@ -1,30 +1,41 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../Model/user.dart';
 
-class SignInNotifier extends StateNotifier<User?> {
-  SignInNotifier() : super(FirebaseAuth.instance.currentUser) {
-    FirebaseAuth.instance.authStateChanges().listen((user) {
-      state = user;
-    });
-  }
+class SignInNotifier extends StateNotifier<Client?> {
+  SignInNotifier() : super(null);
+
+  final supabase = Supabase.instance.client;
 
   Future<void> signIn(String email, String password) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      state = userCredential.user;
-      print('sign In');
+      final response = await supabase.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = response.user;
+      if (user == null) {
+        throw Exception('Sign-in failed');
+      }
+
+      state = Client(
+        email: email,
+        password: password,
+        userId: user.id,
+      );
     } catch (e) {
       print("Sign-in error: $e");
+      rethrow;
     }
   }
 
   Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
+    await supabase.auth.signOut();
     state = null;
   }
 }
 
-final signInProvider = StateNotifierProvider<SignInNotifier, User?>((ref) {
-  return SignInNotifier();
-});
+final SignInProvider = StateNotifierProvider<SignInNotifier, Client?>(
+  (ref) => SignInNotifier(),
+);
