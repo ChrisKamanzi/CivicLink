@@ -1,9 +1,8 @@
-import 'package:civic_link/Providers/SignInNotifier.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../Providers/SignInNotifier.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -18,135 +17,210 @@ class _LoginState extends ConsumerState<Login> {
   final _formKey = GlobalKey<FormState>();
   bool _hasNavigated = false;
 
-  final primaryColor = Colors.orange;
+  final primaryColor = Color.fromRGBO(246, 27, 43, 100);
+  final secondaryColor = Colors.white;
+  final greyColor = Color.fromRGBO(97, 97, 97, 100);
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final signInNotifier = ref.read(signInProvider.notifier);
-
-    ref.listen<User?>(signInProvider, (previous, next) {
-      if (next != null && !_hasNavigated) {
-        _hasNavigated = true;
-        context.go('/home');
-      }
-    });
+    final signInNotifier = ref.read(SignInProvider.notifier);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: context.pop,
+          icon: Icon(Icons.arrow_back_ios),
+        ),
         elevation: 0,
+        /*   title: Center(
+          child: Text(
+            'Login',
+            style: GoogleFonts.poppins(
+              fontSize: 30,
+              fontWeight: FontWeight.w800,
+              color: primaryColor,
+            ),
+          ),
+        ),
+        */
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40),
+        padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 5),
         child: SingleChildScrollView(
-          child: Center(
-            child: SizedBox(
-              width: screenWidth > 600 ? 400 : screenWidth * 0.9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Login',
-                    style: GoogleFonts.inter(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w800,
-                      color: primaryColor,
+          child: Column(
+            children: [
+              SizedBox(height: 50),
+              Text(
+                'Welcome',
+                style: GoogleFonts.poppins(
+                  fontSize: 45,
+                  fontWeight: FontWeight.bold,
+                  color: secondaryColor,
+                ),
+              ),
+              SizedBox(height: 70),
+              /*    Padding(
+                padding: const EdgeInsets.only(left: 50),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      clipBehavior: Clip.hardEdge,
+                      child: Image.asset(
+                        'Assets/logo.png',
+                        width: 70,
+                        height: 70,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 40),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            prefixIcon: const Icon(Icons.email),
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) =>
-                          value == null || value.isEmpty ? 'Enter your email' : null,
-                        ),
-                        const SizedBox(height: 24),
-                        TextFormField(
-                          controller: _passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            prefixIcon: const Icon(Icons.lock),
-                          ),
-                          validator: (value) =>
-                          value == null || value.isEmpty ? 'Enter your password' : null,
-                        ),
-                        const SizedBox(height: 40),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                await signInNotifier.signIn(
-                                  _emailController.text.trim(),
-                                  _passwordController.text.trim(),
-                                );
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: primaryColor,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
+                    SizedBox(width: 10),
+                    Text(
+                      'CivilLink',
+                      style: GoogleFonts.poppins(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: secondaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+*/
+              SizedBox(height: 50),
+
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 200,
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(186, 27, 27, 1),
+                        borderRadius: BorderRadius.circular(40),
+                        border: Border.all(color: Colors.white),
+                      ),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 20,
+                              ),
+                              labelText: 'Email',
+                              border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
+                              prefixIcon: Icon(Icons.email),
+                              fillColor: secondaryColor,
+                              filled: true,
                             ),
-                            child: Text(
-                              'Sign In',
-                              style: GoogleFonts.inter(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+
+                            validator:
+                                (value) =>
+                                    value == null || value.isEmpty
+                                        ? 'Enter your email'
+                                        : null,
+                          ),
+                          SizedBox(height: 24),
+                          TextFormField(
+                            controller: _passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 20,
                               ),
+                              labelText: 'Password',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              prefixIcon: const Icon(Icons.lock),
+                              filled: true,
+                              fillColor: secondaryColor,
                             ),
+                            validator:
+                                (value) =>
+                                    value == null || value.isEmpty
+                                        ? 'Enter your password'
+                                        : null,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 40),
+                    SizedBox(
+                      width: 200,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            await signInNotifier.signIn(
+                              _emailController.text.trim().toLowerCase(),
+                              _passwordController.text.trim(),
+                            );
+
+                            if (!_hasNavigated) {
+                              _hasNavigated = true;
+                              if (mounted) {
+                                context.go('/home');
+                              }
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey.shade800,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
                           ),
                         ),
-                        const SizedBox(height: 60),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Don’t have an account?',
-                              style: GoogleFonts.inter(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black87,
-                              ),
+                        child: Text(
+                          'Sign In',
+                          style: GoogleFonts.poppins(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 60),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Don’t have an account?',
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: secondaryColor,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () => context.push('/register'),
+                          child: Text(
+                            'Sign Up',
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                              color: Color.fromRGBO(231, 252, 60, 100),
                             ),
-                            TextButton(
-                              onPressed: () => context.push('/register'),
-                              child: Text(
-                                'Sign Up',
-                                style: GoogleFonts.inter(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: primaryColor,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
