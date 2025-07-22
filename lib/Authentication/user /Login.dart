@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../Providers/SignInNotifier.dart';
 
 class Login extends ConsumerStatefulWidget {
@@ -30,10 +29,12 @@ class _LoginState extends ConsumerState<Login> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(onPressed: context.pop, icon:Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+          onPressed: context.pop,
+          icon: Icon(Icons.arrow_back_ios),
+        ),
         elevation: 0,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 80),
+        /*   title: Center(
           child: Text(
             'Login',
             style: GoogleFonts.poppins(
@@ -43,6 +44,7 @@ class _LoginState extends ConsumerState<Login> {
             ),
           ),
         ),
+        */
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 5),
@@ -53,13 +55,13 @@ class _LoginState extends ConsumerState<Login> {
               Text(
                 'Welcome',
                 style: GoogleFonts.poppins(
-                  fontSize: 25,
+                  fontSize: 45,
                   fontWeight: FontWeight.bold,
                   color: secondaryColor,
                 ),
               ),
               SizedBox(height: 70),
-              Padding(
+              /*    Padding(
                 padding: const EdgeInsets.only(left: 50),
                 child: Row(
                   children: [
@@ -86,7 +88,7 @@ class _LoginState extends ConsumerState<Login> {
                   ],
                 ),
               ),
-
+*/
               SizedBox(height: 50),
 
               Form(
@@ -106,7 +108,12 @@ class _LoginState extends ConsumerState<Login> {
                           TextFormField(
                             controller: _emailController,
                             decoration: InputDecoration(
-                              labelText: 'Email@gmail.com',
+                              labelStyle: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 20,
+                              ),
+                              labelText: 'Email',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -115,7 +122,6 @@ class _LoginState extends ConsumerState<Login> {
                               filled: true,
                             ),
 
-                            keyboardType: TextInputType.emailAddress,
                             validator:
                                 (value) =>
                                     value == null || value.isEmpty
@@ -127,6 +133,11 @@ class _LoginState extends ConsumerState<Login> {
                             controller: _passwordController,
                             obscureText: true,
                             decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 20,
+                              ),
                               labelText: 'Password',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
