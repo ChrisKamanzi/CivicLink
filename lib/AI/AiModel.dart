@@ -7,6 +7,7 @@ String categorizeComplaint(String complaintText) {
     "irrigation": "MINAGRI",
     "Fertilizers ": "MINAGRI",
 
+
     "schools": "MINEDUC",
     "teachers": "MINEDUC",
     "exams": "MINEDUC",
@@ -19,10 +20,12 @@ String categorizeComplaint(String complaintText) {
     "passport": "MINAFET",
     "Embassies": "MINAFET",
 
+
     "insecurity": "MINADEF",
     "gun": "MINAFET",
     "shoot" : "MINAFET",
     "border": "MINAFET",
+
 
   };
 
