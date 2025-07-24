@@ -1,25 +1,27 @@
-import 'package:civic_link/Authentication/Admin/adminAuth.dart';
+import 'package:animations/animations.dart';
 import 'package:civic_link/Authentication/user%20/Login.dart';
 import 'package:civic_link/Authentication/user%20/Register.dart';
-import 'package:civic_link/Home/MyComplaint.dart';
-import 'package:civic_link/Home/WelcomePage.dart';
-import 'package:civic_link/Home/complains.dart';
-import 'package:civic_link/Home/Agencies.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:civic_link/Home/Welcome_page.dart';
+import 'package:civic_link/Home/citizen%20/complains.dart';
+import 'package:civic_link/Home/citizen%20/Agencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'Home/AdminHome.dart';
-import 'Home/CitizenHomePage.dart';
-import 'firebase_options.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'Home/citizen /CitizenHomePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Supabase.initialize(
+    url: 'https://vcouhytrfxxizokcqsmc.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjb3VoeXRyZnh4aXpva2Nxc21jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODM1MzgsImV4cCI6MjA2ODY1OTUzOH0.gbp-HTUAI_wtWvcwpKswLAH0bcP6k4bsn1HZsWOCsfk',
   );
   runApp(ProviderScope(child: MyApp()));
 }
+
+final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
@@ -33,15 +35,70 @@ class MyApp extends StatelessWidget {
       ),
       GoRoute(
         path: '/login',
-        builder: (BuildContext context, GoRouterState state) => Login(),
-      ),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: Login(),
+            transitionDuration: Duration(milliseconds: 1000),
+            transitionsBuilder: (
+                context,
+                animation,
+                secondaryAnimation,
+                child,
+                ) {
+              return SharedAxisTransition(
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                transitionType: SharedAxisTransitionType.horizontal,
+                child: child,
+              );
+            },
+          );
+        },      ),
       GoRoute(
         path: '/register',
-        builder: (BuildContext context, GoRouterState state) => Register(),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: Register(),
+            transitionDuration: Duration(milliseconds: 1000),
+            transitionsBuilder: (
+              context,
+              animation,
+              secondaryAnimation,
+              child,
+            ) {
+              return FadeThroughTransition(
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                child: child,
+              );
+            },
+          );
+        },
       ),
       GoRoute(
         path: '/complains',
-        builder: (BuildContext context, GoRouterState state) => Complains(),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: Complains(),
+            transitionDuration: Duration(milliseconds: 1000),
+            transitionsBuilder: (
+              context,
+              animation,
+              secondaryAnimation,
+              child,
+            ) {
+              return SharedAxisTransition(
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                transitionType: SharedAxisTransitionType.horizontal,
+                child: child,
+              );
+            },
+          );
+        },
       ),
       GoRoute(
         path: '/Agencies',
@@ -49,20 +106,40 @@ class MyApp extends StatelessWidget {
       ),
       GoRoute(
         path: '/home',
-        builder: (BuildContext context, GoRouterState state) => CitizenHomePage(),
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: CitizenHomePage(),
+            transitionDuration: Duration(milliseconds: 1000),
+            transitionsBuilder: (
+                context,
+                animation,
+                secondaryAnimation,
+                child,
+                ) {
+              return SharedAxisTransition(
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                transitionType: SharedAxisTransitionType.horizontal,
+                child: child,
+              );
+            },
+          );
+        },
       ),
-      GoRoute(
+      /*   GoRoute(
         path: '/Admin',
-        builder: (BuildContext context, GoRouterState state) => LoginScreenWeb(),
+        builder:
+            (BuildContext context, GoRouterState state) => LoginScreenWeb(),
       ),
       GoRoute(
         path: '/AdminHome',
-        builder: (BuildContext context, GoRouterState state) =>AdminHome(),
+        builder: (BuildContext context, GoRouterState state) => AdminHome(),
       ),
       GoRoute(
         path: '/MyStatus',
-        builder: (BuildContext context, GoRouterState state) =>MyStatus(),
-      ),
+        builder: (BuildContext context, GoRouterState state) => MyStatus(),
+      ),*/
     ],
   );
 
@@ -70,6 +147,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          color: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.white, size: 25, opacity: 2.0),
+        ),
         primarySwatch: Colors.orange,
         useMaterial3: true,
       ),
