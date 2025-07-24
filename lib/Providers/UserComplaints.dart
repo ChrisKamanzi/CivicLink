@@ -1,34 +1,36 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../Model/AdminComplaintModel.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-final citizenComplaintProvider =
-     StateNotifierProvider<CitizenComplaintNotifier, List<Complaint>>((ref) {
-      return CitizenComplaintNotifier();
-    });
+import '../Model/complaint_model.dart';
 
-class CitizenComplaintNotifier extends StateNotifier<List<Complaint>> {
-  CitizenComplaintNotifier() : super([]) {
-    fetchUserComplaints();
-  }
-  final _firestore = FirebaseFirestore.instance;
-  Future<void> fetchUserComplaints() async {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    if (userId == null) {
-      state = [];
-      return;
+class MyComplainNotifier extends StateNotifier<List<Complaint>> {
+  MyComplainNotifier() : super([]);
+
+  final supabase = Supabase.instance.client;
+
+  Future<void> fetchComplaint() async {
+    try {
+      final user = supabase.auth.currentUser;
+      if (user == null) {
+        state = [];
+        return;
+      }
+      final response = await supabase
+          .from('complaints')
+          .select()
+          .eq('userId', user.id);
+      print('${response}');
+      if (response is List) {
+        state = response.map((e) => Complaint.fromJson(e)).toList();
+      } else {
+        state = [];
+      }
+    } catch (e) {
+      print('error ${e}');
     }
-
-    final snapshot =
-        await _firestore
-            .collection('complaint')
-            .where('userId', isEqualTo: userId)
-            .get();
-
-    state =
-        snapshot.docs
-            .map((doc) => Complaint.fromMap(doc.data(), doc.id))
-            .toList();
   }
 }
+  final myComplaintProvider =
+  StateNotifierProvider<MyComplainNotifier, List<Complaint>>(
+        (ref) => MyComplainNotifier(),
+  );
