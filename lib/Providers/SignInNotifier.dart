@@ -1,41 +1,46 @@
+import 'package:civic_link/Model/user.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../Model/user.dart';
+import 'dart:io';
 
-class SignInNotifier extends StateNotifier<Client?> {
-  SignInNotifier() : super(null);
+final SignInProvider = StateNotifierProvider<SignInNotifier, AsyncValue<Client?>>(
+  (ref) => SignInNotifier(),
+);
+
+class SignInNotifier extends StateNotifier<AsyncValue<Client?>> {
+  SignInNotifier() : super(AsyncData(null));
 
   final supabase = Supabase.instance.client;
 
-  Future<void> signIn(String email, String password) async {
+  Future<void> signIn(String email, String password, {bool? showLogs = false}) async {
+    state = AsyncValue.loading();
     try {
-      final response = await supabase.auth.signInWithPassword(
-        email: email,
-        password: password,
-      );
-
-      final user = response.user;
-      if (user == null) {
-        throw Exception('Sign-in failed');
+      final response = await supabase.auth.signInWithPassword(email: email, password: password);
+      final user = response.user; 
+      
+      if (user != null) {
+        final client = Client(id: user.id, email: email, password: password);
+        state = AsyncData(client);
+        debugPrint('SignedIn auth : ${response}');
+      }else{
+        throw Exception("User Not Found");
       }
-
-      state = Client(
-        email: email,
-        password: password,
-        userId: user.id,
-      );
-    } catch (e) {
-      print("Sign-in error: $e");
-      rethrow;
+    }
+    on SocketException catch (_) {
+      final errMsg = "No internet connection. Please check your network.";
+      if (showLogs == true) {
+        debugPrint("Internet Connection $errMsg");
+      }
+      state = AsyncValue.error(errMsg, StackTrace.current);
+    }
+    catch (e, st) {
+      if(showLogs == true);
+      state =  AsyncValue.error(e, st);
     }
   }
-
   Future<void> signOut() async {
     await supabase.auth.signOut();
-    state = null;
+    state = AsyncValue.data(null);
   }
 }
-
-final SignInProvider = StateNotifierProvider<SignInNotifier, Client?>(
-  (ref) => SignInNotifier(),
-);
