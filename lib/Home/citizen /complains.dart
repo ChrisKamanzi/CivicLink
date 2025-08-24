@@ -18,7 +18,8 @@ class Complains extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final complaintState = ref.watch(ComplainProvider);
+    final isLoading = ref.watch(ComplainProvider);
+    final complaintState = ref.watch(ComplainProvider.notifier);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -111,6 +112,25 @@ class Complains extends ConsumerWidget {
                                   : null,
                     ),
                     SizedBox(height: 40),
+                    GestureDetector(
+                      onTap: () {
+
+                      },
+                      child: Row(
+                          children: [
+
+                        Text('Upload Image ', style: GoogleFonts.brawler(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15,
+                          color: Colors.white
+                        ),),
+
+                        Icon(Icons.camera_alt, size: 20,color: Colors.white,),
+
+                      ]
+                      ),
+                    ),
+                    SizedBox(height: 40),
 
                     SizedBox(
                       width: 320,
@@ -123,43 +143,61 @@ class Complains extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(50),
                           ),
                         ),
-                        onPressed: () async {
-                          String title = _titleController.text.trim();
-                          String description =
-                              _descriptionController.text.trim();
-                          String department = categorizeComplaint(description);
-                          debugPrint(department);
-                          try {
-                            await ref
-                                .read(ComplainProvider.notifier)
-                                .submitComplaint(
-                                  title: title,
-                                  description: description,
-                                  status: 'pending',
-                                  department: department,
-                                );
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Complaint submitted successfully!'),
-                                backgroundColor: Colors.green,
-                              ),
-                            );
-                          } catch (e) {
-                            throw Exception(e);
-                          }
-                        },
+                        onPressed:
+                            isLoading
+                                ? null
+                                : () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    String title = _titleController.text.trim();
+                                    String description =
+                                        _descriptionController.text.trim();
+                                    String department = categorizeComplaint(
+                                      description,
+                                    );
+                                    debugPrint(department);
+                                    try {
+                                      await complaintState.submitComplaint(
+                                        title: title,
+                                        description: description,
+                                        status: 'pending',
+                                        department: department,
+                                      );
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Complaint submitted successfully!',
+                                          ),
+                                          backgroundColor: Colors.green,
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      throw Exception(e);
+                                    }
+                                  }
+                                },
 
-                        child: Text(
-                          'SUBMIT',
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w800,
-                            color: secondaryColor,
-                          ),
-                        ),
+                        child:
+                            isLoading
+                                ? const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2.5,
+                                  ),
+                                )
+                                : Text(
+                                  'SUBMIT',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w800,
+                                    color: secondaryColor,
+                                  ),
+                                ),
                       ),
                     ),
-
                     SizedBox(height: 24),
                   ],
                 ),
