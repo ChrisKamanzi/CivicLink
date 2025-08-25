@@ -104,7 +104,9 @@ String categorizeComplaint(String complaintText) {
     "school equipment": "MINEDUC",
     "TVET center": "MINEDUC",
 
+
     // MINAFET
+
     "diplomacy": "MINAFET",
     "embassies": "MINAFET",
     "passport": "MINAFET",
@@ -152,6 +154,7 @@ String categorizeComplaint(String complaintText) {
     "cross-border relations": "MINAFET",
 
     // MINADEF
+
     "military": "MINADEF",
     "army": "MINADEF",
     "border": "MINADEF",
