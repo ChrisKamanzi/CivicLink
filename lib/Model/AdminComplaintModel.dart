@@ -1,33 +1,43 @@
 class Complaint {
-  final String id;
-  final String tittle;
+  final int complaintId;
+  final String title;
   final String description;
+  final String department;
   final String status;
-  final String assigned;
-  final String userId;
-  final String reply;
-
+  final String? response;
+  final DateTime submittedAt;
 
   Complaint({
-    required this.id,
-    required this.tittle,
+    required this.complaintId,
+    required this.title,
     required this.description,
+    required this.department,
     required this.status,
-    required this.assigned,
-    required this.userId,
-    required this.reply,
-
+    this.response,
+    required this.submittedAt,
   });
 
-  factory Complaint.fromMap(Map<String, dynamic> data, String id) {
+  factory Complaint.fromJson(Map<String, dynamic> json) {
     return Complaint(
-      id: id,
-      tittle: data['tittle'] ?? '',
-      description: data['description'] ?? '',
-      status: data['status'] ?? '',
-      assigned: data['assigned'] ?? '',
-      userId: data['userId'] ?? '',
-      reply: data['reply'] ?? '',
+      complaintId: json['complaint_id'],
+      title: json['title'],
+      description: json['description'],
+      department: json['department'],
+      status: json['status'] ?? 'pending',
+      response: json['response'],
+      submittedAt: DateTime.parse(json['submited_at']),
+    );
+  }
+
+  Complaint copyWith({String? response, String? status}) {
+    return Complaint(
+      complaintId: complaintId,
+      title: title,
+      description: description,
+      department: department,
+      status: status ?? this.status,
+      response: response ?? this.response,
+      submittedAt: submittedAt,
     );
   }
 }

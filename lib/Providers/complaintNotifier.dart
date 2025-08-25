@@ -1,44 +1,44 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../Model/complaintModel.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../Model/complaint_model.dart';
 
-class ComplaintNotifier extends StateNotifier<AsyncValue<void>> {
-  ComplaintNotifier() : super(const AsyncData(null));
+class ComplaintNotifier extends StateNotifier<Complaint?> {
+  ComplaintNotifier() : super(null);
+
+  final supabase = Supabase.instance.client;
 
   Future<void> submitComplaint({
     required String title,
     required String description,
-    required String assignedAgency,
+    required String status,
+    required String department,
   }) async {
-    state = const AsyncLoading();
-
     try {
-      final uid = FirebaseAuth.instance.currentUser?.uid;
-      if (uid == null) throw Exception('User not signed in');
-
+      final user = supabase.auth.currentUser;
+      if (user == null) throw Exception('User not signed in');
       final complaint = Complaint(
         title: title,
         description: description,
-        assignedAgency: assignedAgency,
-        userId: uid,
+        department: department,
+        status: 'pending',
+        userId: user.id,
       );
 
-      final docRef = await FirebaseFirestore.instance
-          .collection('complaint')
-          .add(complaint.toMap());
+      await supabase.from('complaints').insert({
+        'title': complaint.title,
+        'description': complaint.description,
+        'department': complaint.department,
+        'status': complaint.status,
+        'userId': complaint.userId,
+      });
 
-      print("✅ Complaint added with ID: ${docRef.id}");
-
-      state = const AsyncData(null);
+      state = complaint;
     } catch (e, st) {
-      print("❌ Error submitting complaint: $e");
-      state = AsyncError(e, st);
+      throw Exception('Submit failed: $e');
     }
   }
 }
 
-final complaintProvider =
-StateNotifierProvider<ComplaintNotifier, AsyncValue<void>>(
-      (ref) => ComplaintNotifier(),
+final ComplainProvider = StateNotifierProvider<ComplaintNotifier, Complaint?>(
+  (ref) => ComplaintNotifier(),
 );

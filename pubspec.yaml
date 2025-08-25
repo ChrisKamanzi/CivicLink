@@ -38,10 +38,23 @@ dependencies:
   go_router: ^15.1.2
   flutter_riverpod: ^2.6.1
   supabase_flutter: ^2.9.1
+  animations: ^2.0.11
+  lottie: ^3.3.1
+  url_launcher: ^6.2.6
+  video_player: ^2.10.0
+  carousel_slider: ^5.1.1
+  clay_containers: ^0.3.4
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "Assets/logo.png"
+
+flutter_test:
+  sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -60,6 +73,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:

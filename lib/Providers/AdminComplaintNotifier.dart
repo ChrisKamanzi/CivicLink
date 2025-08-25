@@ -1,28 +1,53 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../Model/AdminComplaintModel.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../Model/AdminComplaintModel.dart';
 
-final adminComplaintProvider = StateNotifierProvider<AdminComplaintNotifier, List<Complaint>>((ref) {
-  return AdminComplaintNotifier();
-});
-
-class AdminComplaintNotifier extends StateNotifier<List<Complaint>> {
-  AdminComplaintNotifier() : super([]) {
+class ComplaintNotifier extends StateNotifier<List<Complaint>> {
+  ComplaintNotifier() : super([]) {
     fetchComplaints();
   }
 
-  final _firestore = FirebaseFirestore.instance;
+  final _supabase = Supabase.instance.client;
 
   Future<void> fetchComplaints() async {
-    final snapshot = await _firestore.collection('complaint').get();
-    state = snapshot.docs.map((doc) => Complaint.fromMap(doc.data(), doc.id)).toList();
+    final response = await _supabase
+        .from('complaints')
+        .select()
+        .order('submited_at', ascending: false);
+
+    print('Fetched complaints from Supabase: $response');
+
+    if (response != null && response is List) {
+      state = response.map((e) => Complaint.fromJson(e)).toList();
+    } else {
+      state = [];
+    }
   }
 
-  Future<void> submitReply(String docId, String reply) async {
-    await _firestore.collection('complaint').doc(docId).update({
-      'reply': reply,
-      'status': 'replied',
-    });
-    await fetchComplaints();
+  Future<void> replyToComplaint({
+    required int complaintId,
+    required String response,
+  }) async {
+    try {
+      final data = await _supabase
+          .from('complaints')
+          .update({'response': response, 'status': 'replied'})
+          .eq('complaint_id', complaintId);
+
+      state =
+          state.map((c) {
+            if (c.complaintId == complaintId) {
+              return c.copyWith(response: response, status: 'replied');
+            }
+            return c;
+          }).toList();
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }
+
+final complaintNotifierProvider =
+    StateNotifierProvider<ComplaintNotifier, List<Complaint>>(
+      (ref) => ComplaintNotifier(),
+    );
