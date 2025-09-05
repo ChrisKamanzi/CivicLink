@@ -1,15 +1,22 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     final primaryColor = Color.fromRGBO(246, 27, 43, 100);
     final secondaryColor = Colors.white;
-    final greyColor = Color.fromRGBO(97, 97, 97, 100);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -28,15 +35,11 @@ class WelcomePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(100),
               ),
               clipBehavior: Clip.hardEdge,
-              child: Image.asset(
-                'Assets/logo.png',
-                width: 200,
-                height: 200,
-              ),
+              child: Image.asset('Assets/logo.png', width: 200, height: 200),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             Text(
-              'CivicLink',
+              'loginScreen.title'.tr(),
               style: GoogleFonts.inter(
                 fontSize: 56,
                 fontWeight: FontWeight.bold,
@@ -45,7 +48,7 @@ class WelcomePage extends StatelessWidget {
             ),
             SizedBox(height: 12),
             Text(
-              'Report, Track, Resolve',
+              'loginScreen.description'.tr(),
               style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -57,28 +60,26 @@ class WelcomePage extends StatelessWidget {
             // Login Button
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
+              child: OutlinedButton(
                 onPressed: () => context.push('/login'),
-                style: ElevatedButton.styleFrom(
+                style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.grey.shade800,
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   side: BorderSide(color: primaryColor, width: 2),
-
-                  padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
                 child: Text(
-                  'Login',
+                  'loginScreen.login'.tr(),
                   style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: secondaryColor,
                   ),
                 ),
               ),
             ),
-
             SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
@@ -89,12 +90,11 @@ class WelcomePage extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 16),
                   side: BorderSide(color: primaryColor, width: 2),
                   shape: RoundedRectangleBorder(
-
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
                 child: Text(
-                  'Sign Up',
+                  'loginScreen.signUp'.tr(),
                   style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class WelcomePage extends StatelessWidget {
             TextButton(
               onPressed: () => context.push('/Admin'),
               child: Text(
-                'Continue As Admin',
+                'loginScreen.admin'.tr(),
                 style: GoogleFonts.inter(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
